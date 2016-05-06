@@ -19,7 +19,7 @@ class NewVisitorTest(unittest.TestCase):
 
         #他看到网页标题和头部都包含"TO-DO"关键词
         self.assertIn('To-Do' , self.browser.title)
-        header_text = self.browser.find_element_by_tag_name('h1').txt
+        header_text = self.browser.find_element_by_tag_name('h1').text
         self.assertIn('To-Do' , header_text)
 
         #应用邀请她输入一个待办事项
@@ -35,9 +35,10 @@ class NewVisitorTest(unittest.TestCase):
         #输入后按回车,页面更新了
         inputbox.send_keys(Keys.ENTER)
         table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_element_by_tag_name('tr')
+        rows = table.find_elements_by_tag_name('tr')
         self.assertTrue(
-            any(row.text == '1:Buy a Box' for row in rows)
+            any(row.text == '1:Buy a Box' for row in rows),
+            "New to-do litem did not appear in table"
         )
         #待办事项表格中显示了"1:Buy Box"
         #同时页面又出现一个文本框可以输入其他待办事项
